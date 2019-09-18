@@ -14,9 +14,9 @@ import time
 import lxml
 
 
-# set the time limit for this program (current 120 second)
+# set the time limit for web_crawler function (currently 120 second)
 TIME_LIMIT = 120
-# list with popular sites
+# list of popular sites
 POPULAR_SITES = ['slideshare', 'facebook', 'twitter', 'youtube', 'linkedin', 'instagram', 'google']
 # unwanted formats (this words shouldn't be part of any URL)
 EXCLUDE_FORMATS = ['#', '@', 'jpeg', 'pdf', 'txt', 'jpg', 'download', 'node']
