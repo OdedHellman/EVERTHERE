@@ -226,7 +226,7 @@ def main(input_file):
                     )
                     continue
 
-                # Print a list of 'Partners' URLs
+                # write 'partners' links to CSV
                 for partner in partners_page_finder(urls_list):
                     writer.writerow(
                         {
