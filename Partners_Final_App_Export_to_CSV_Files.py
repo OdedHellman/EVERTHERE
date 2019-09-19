@@ -1,6 +1,6 @@
 """
-The program gets CSV file (Input) which contains list of URLs and generates for each URL a new CSV file that
-contains all the 'partners' web site.
+The program gets CSV file (Input) which contains a list of URLs and generates for each URL a new CSV file (Domain name) that
+contains 'partners' web site.
 """
 import sys
 import csv
