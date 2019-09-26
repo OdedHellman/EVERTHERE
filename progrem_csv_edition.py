@@ -15,8 +15,6 @@ import re
 import time
 import lxml
 
-# set the time limit for web_crawler function (currently 120 second)
-TIME_LIMIT = 120
 # list of popular sites
 POPULAR_SITES = ['slideshare', 'facebook', 'twitter', 'youtube', 'linkedin', 'instagram', 'google']
 # unwanted formats (will not be part of the URL)
@@ -30,17 +28,16 @@ EXCLUDE_TAGS = re.compile(
 )
 
 
-def check_status_code(url):
+def get_response(url):
     """
     This function checks the status code of given URL
     :param url: the URL of a given website
-    :return: the status code or -1 if the URL is broken
+    :return: the status code or None if the URL is broken
     """
     try:
-        response = requests.get(url, timeout=60)
-        return response.status_code
+        return requests.get(url)
     except:
-        return -1
+        return None
 
 
 def web_crawler(domain):
@@ -50,6 +47,9 @@ def web_crawler(domain):
     :return: list with all links that contains the word 'partners'
     """
 
+    # set the time limit for this function (currently 120 second)
+    time_limit = 120
+    end_time = time.time() + time_limit
     # queue of URLs to be crawled
     new_urls = deque([domain])
     # set of URLs that we have already crawled
@@ -60,18 +60,16 @@ def web_crawler(domain):
     irrelevant_urls = set()
     # list of URLs contains the tag 'partners'
     partners_urls = []
-    # set the time limit for this function
-    end_time = time.time() + TIME_LIMIT
 
     # process URLs one by one until we exhaust the queue or until time runs out
-    url = new_urls.popleft()
-    while url and time.time() < end_time:
 
+    while len(new_urls) and time.time() < end_time:
         # move next URL from the queue to the set of processed URLs
+        url = new_urls.popleft()
         processed_urls.add(url)
-
+        response = get_response(url)
         # add broken URLs to irrelevant set, then continue
-        if not check_status_code(url) == 200:
+        if not response or response.status_code != 200:
             irrelevant_urls.add(url)
             continue
 
@@ -97,11 +95,11 @@ def web_crawler(domain):
         base_url = "{0.scheme}://{0.netloc}".format(parts)
         path = url[:url.rfind('/') + 1] if '/' in parts.path else url
 
-        response = requests.get(url)
         # create a beautiful soup for the html
         soup = BeautifulSoup(response.text, 'lxml')
 
         for link in soup.findAll("a"):
+
             # extract link URL from the anchor
             base = link.attrs["href"] if "href" in link.attrs else ''
             if base.startswith('/'):
@@ -113,18 +111,18 @@ def web_crawler(domain):
                 local_link = path + base
                 local_urls.add(local_link)
 
-        for i in local_urls:
-            if not i in new_urls and not i in processed_urls and not i in irrelevant_urls:
+        for link in local_urls:
+
+            if not link in new_urls and not link in processed_urls and not link in irrelevant_urls:
                 # adds new URLs with affiliation to the word 'partners' to the start of the deque
-                if 'partners' in url.lower() or 'partners' in i.lower():
-                    new_urls.appendleft(i)
+                if 'partners' in url.lower() or 'partners' in link.lower():
+                    new_urls.appendleft(link)
                 else:
                     # adds other URLs to the end of new_urls deque
-                    new_urls.append(i)
+                    new_urls.append(link)
 
         # reset the local_urls deque for the next iteration
         local_urls.clear()
-        url = new_urls.popleft()
 
     # return only the list that contain the URLs with the word 'partners'
     return partners_urls
@@ -142,10 +140,10 @@ def partners_page_finder(urls_list):
 
     for url in urls_list:
 
-        if not check_status_code(url) == 200:
+        response = get_response(url)
+        if not response or response.status_code != 200:
             continue
 
-        response = requests.get(url)
         # create a beautiful soup for the html
         soup = BeautifulSoup(response.text, "lxml")
         # tldextract.extract
@@ -186,7 +184,6 @@ def partners_page_finder(urls_list):
 
 
 def main(input_file):
-
     with open(input_file, newline="\n") as fin:
         reader = csv.DictReader(fin)
 
@@ -194,20 +191,16 @@ def main(input_file):
             print('--------------------------------------')
             domain = row["Website"]
             # fix url if needed (adds 'http' first etc..)
-            if "https//" or "http//" in domain and "www." in domain:
+            if "https://" or "http://" in domain and "www." in domain:
                 full_url = domain
-            elif "https//" in domain and not "www." in domain:
-                full_url = domain[:8] + "www." + domain[8:]
-            elif "http//" in domain and not "www." in domain:
-                full_url = domain[:7] + "www." + domain[7:]
-            elif "https//" and "http//" not in domain and "www." in domain:
-                full_url = "https://" + domain
+            elif "https://" in domain and not "www." in domain:
+                full_url = domain.replace("https://", "https://www.")
+            elif "http://" in domain and not "www." in domain:
+                full_url = domain.replace("http://", "http://www.")
+            elif "https://" and "http://" not in domain and "www." in domain:
+                full_url = f"https://{domain}"
             else:
-                full_url = "https://www." + domain
-
-            # broken and unavailable links
-            if not check_status_code(full_url) == 200:
-                continue
+                full_url = f"https://www.{domain}"
 
             home_domain = extract(full_url).domain
 
