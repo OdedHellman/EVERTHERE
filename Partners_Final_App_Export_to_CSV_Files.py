@@ -60,7 +60,7 @@ def web_crawler(domain):
     irrelevant_urls = set()
     # list of URLs contains the tag 'partners'
     partners_urls = []
-    # srt the time limit for this function
+    # set the time limit for this function
     end_time = time.time() + TIME_LIMIT
 
     # process URLs one by one until we exhaust the queue or until time runs out
