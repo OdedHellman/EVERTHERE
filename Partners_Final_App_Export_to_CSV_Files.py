@@ -64,10 +64,10 @@ def web_crawler(domain):
     end_time = time.time() + TIME_LIMIT
 
     # process URLs one by one until we exhaust the queue or until time runs out
-    while len(new_urls) and time.time() < end_time:
+    url = new_urls.popleft()
+    while url and time.time() < end_time:
 
         # move next URL from the queue to the set of processed URLs
-        url = new_urls.popleft()
         processed_urls.add(url)
 
         # add broken URLs to irrelevant set, then continue
@@ -124,6 +124,7 @@ def web_crawler(domain):
 
         # reset the local_urls deque for the next iteration
         local_urls.clear()
+        url = new_urls.popleft()
 
     # return only the list that contain the URLs with the word 'partners'
     return partners_urls
