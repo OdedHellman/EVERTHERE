@@ -205,10 +205,6 @@ def main(input_file):
             else:
                 full_url = f"https://www.{domain}"
 
-            # broken and unavailable links
-            if not check_status_code(full_url) == 200:
-                continue
-
             home_domain = extract(full_url).domain
 
             with open(os.path.dirname(input_file) + '/' + home_domain + '.csv', "w", newline="\n") as fout:
