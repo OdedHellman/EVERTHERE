@@ -113,14 +113,14 @@ def web_crawler(domain):
                 local_link = path + base
                 local_urls.add(local_link)
 
-        for i in local_urls:
-            if not i in new_urls and not i in processed_urls and not i in irrelevant_urls:
+        for link in local_urls:
+            if not link in new_urls and not link in processed_urls and not link in irrelevant_urls:
                 # adds new URLs with affiliation to the word 'partners' to the start of the deque
-                if 'partners' in url.lower() or 'partners' in i.lower():
-                    new_urls.appendleft(i)
+                if 'partners' in url.lower() or 'partners' in link.lower():
+                    new_urls.appendleft(link)
                 else:
                     # adds other URLs to the end of new_urls deque
-                    new_urls.append(i)
+                    new_urls.append(link)
 
         # reset the local_urls deque for the next iteration
         local_urls.clear()
