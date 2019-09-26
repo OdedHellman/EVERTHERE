@@ -28,17 +28,16 @@ EXCLUDE_TAGS = re.compile(
 )
 
 
-def check_status_code(url):
+def get_response(url):
     """
     This function checks the status code of given URL
     :param url: the URL of a given website
-    :return: the status code or -1 if the URL is broken
+    :return: the status code or None if the URL is broken
     """
     try:
-        response = requests.get(url, timeout=60)
-        return response
+        return requests.get(url)
     except:
-        return -1
+        return None
 
 
 def web_crawler(domain):
@@ -47,6 +46,7 @@ def web_crawler(domain):
     :param domain: the website to be crawl
     :return: list with all links that contains the word 'partners'
     """
+
     # set the time limit for this function (currently 120 second)
     time_limit = 120
     end_time = time.time() + time_limit
@@ -62,14 +62,14 @@ def web_crawler(domain):
     partners_urls = []
 
     # process URLs one by one until we exhaust the queue or until time runs out
-    url = new_urls.popleft()
-    while url and time.time() < end_time:
 
+    while len(new_urls) and time.time() < end_time:
         # move next URL from the queue to the set of processed URLs
+        url = new_urls.popleft()
         processed_urls.add(url)
-        response = check_status_code(url)
+        response = get_response(url)
         # add broken URLs to irrelevant set, then continue
-        if response.status_code != 200:
+        if not response or response.status_code != 200:
             irrelevant_urls.add(url)
             continue
 
@@ -123,7 +123,6 @@ def web_crawler(domain):
 
         # reset the local_urls deque for the next iteration
         local_urls.clear()
-        url = new_urls.popleft()
 
     # return only the list that contain the URLs with the word 'partners'
     return partners_urls
@@ -141,8 +140,8 @@ def partners_page_finder(urls_list):
 
     for url in urls_list:
 
-        response = check_status_code(url)
-        if response.status_code != 200:
+        response = get_response(url)
+        if not response or response.status_code != 200:
             continue
 
         # create a beautiful soup for the html
