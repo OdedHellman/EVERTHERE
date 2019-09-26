@@ -15,8 +15,7 @@ import re
 import time
 import lxml
 
-# set the time limit for web_crawler function (currently 120 second)
-TIME_LIMIT = 120
+
 # list of popular sites
 POPULAR_SITES = ['slideshare', 'facebook', 'twitter', 'youtube', 'linkedin', 'instagram', 'google']
 # unwanted formats (will not be part of the URL)
@@ -49,7 +48,9 @@ def web_crawler(domain):
     :param domain: the website to be crawl
     :return: list with all links that contains the word 'partners'
     """
-
+    # set the time limit for this function (currently 120 second)
+    time_limit = 120
+    end_time = time.time() + time_limit
     # queue of URLs to be crawled
     new_urls = deque([domain])
     # set of URLs that we have already crawled
@@ -60,8 +61,6 @@ def web_crawler(domain):
     irrelevant_urls = set()
     # list of URLs contains the tag 'partners'
     partners_urls = []
-    # set the time limit for this function
-    end_time = time.time() + TIME_LIMIT
 
     # process URLs one by one until we exhaust the queue or until time runs out
     url = new_urls.popleft()
@@ -101,6 +100,7 @@ def web_crawler(domain):
         soup = BeautifulSoup(response.text, 'lxml')
 
         for link in soup.findAll("a"):
+
             # extract link URL from the anchor
             base = link.attrs["href"] if "href" in link.attrs else ''
             if base.startswith('/'):
@@ -113,6 +113,7 @@ def web_crawler(domain):
                 local_urls.add(local_link)
 
         for link in local_urls:
+
             if not link in new_urls and not link in processed_urls and not link in irrelevant_urls:
                 # adds new URLs with affiliation to the word 'partners' to the start of the deque
                 if 'partners' in url.lower() or 'partners' in link.lower():
