@@ -194,16 +194,16 @@ def main(input_file):
             print('--------------------------------------')
             domain = row["Website"]
             # fix url if needed (adds 'http' first etc..)
-            if "https//" or "http//" in domain and "www." in domain:
+            if "https://" or "http://" in domain and "www." in domain:
                 full_url = domain
-            elif "https//" in domain and not "www." in domain:
-                full_url = domain[:8] + "www." + domain[8:]
-            elif "http//" in domain and not "www." in domain:
-                full_url = domain[:7] + "www." + domain[7:]
-            elif "https//" and "http//" not in domain and "www." in domain:
-                full_url = "https://" + domain
+            elif "https://" in domain and not "www." in domain:
+                full_url = domain[:len('https://')] + "www." + domain[len('https://'):]
+            elif "http://" in domain and not "www." in domain:
+                full_url = domain[:len('http://')] + "www." + domain[len('http://'):]
+            elif "https://" and "http://" not in domain and "www." in domain:
+                full_url = f"https://{domain}"
             else:
-                full_url = "https://www." + domain
+                full_url = f"https://www.{domain}"
 
             # broken and unavailable links
             if not check_status_code(full_url) == 200:
