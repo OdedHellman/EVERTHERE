@@ -15,7 +15,6 @@ import re
 import time
 import lxml
 
-
 # list of popular sites
 POPULAR_SITES = ['slideshare', 'facebook', 'twitter', 'youtube', 'linkedin', 'instagram', 'google']
 # unwanted formats (will not be part of the URL)
@@ -186,7 +185,6 @@ def partners_page_finder(urls_list):
 
 
 def main(input_file):
-
     with open(input_file, newline="\n") as fin:
         reader = csv.DictReader(fin)
 
@@ -197,9 +195,9 @@ def main(input_file):
             if "https://" or "http://" in domain and "www." in domain:
                 full_url = domain
             elif "https://" in domain and not "www." in domain:
-                full_url = domain[:len('https://')] + "www." + domain[len('https://'):]
+                full_url = domain.replace("https://", "https://www.")
             elif "http://" in domain and not "www." in domain:
-                full_url = domain[:len('http://')] + "www." + domain[len('http://'):]
+                full_url = domain.replace("http://", "http://www.")
             elif "https://" and "http://" not in domain and "www." in domain:
                 full_url = f"https://{domain}"
             else:
