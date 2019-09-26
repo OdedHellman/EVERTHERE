@@ -38,7 +38,7 @@ def check_status_code(url):
     """
     try:
         response = requests.get(url, timeout=60)
-        return response.status_code
+        return response
     except:
         return -1
 
@@ -69,9 +69,9 @@ def web_crawler(domain):
 
         # move next URL from the queue to the set of processed URLs
         processed_urls.add(url)
-
+        response = check_status_code(url)
         # add broken URLs to irrelevant set, then continue
-        if not check_status_code(url) == 200:
+        if response.status_code != 200:
             irrelevant_urls.add(url)
             continue
 
@@ -97,7 +97,6 @@ def web_crawler(domain):
         base_url = "{0.scheme}://{0.netloc}".format(parts)
         path = url[:url.rfind('/') + 1] if '/' in parts.path else url
 
-        response = requests.get(url)
         # create a beautiful soup for the html
         soup = BeautifulSoup(response.text, 'lxml')
 
@@ -142,10 +141,10 @@ def partners_page_finder(urls_list):
 
     for url in urls_list:
 
-        if not check_status_code(url) == 200:
+        response = check_status_code(url)
+        if response.status_code != 200:
             continue
 
-        response = requests.get(url)
         # create a beautiful soup for the html
         soup = BeautifulSoup(response.text, "lxml")
         # tldextract.extract
