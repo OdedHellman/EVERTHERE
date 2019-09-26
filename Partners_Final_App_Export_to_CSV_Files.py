@@ -19,7 +19,7 @@ import lxml
 TIME_LIMIT = 120
 # list of popular sites
 POPULAR_SITES = ['slideshare', 'facebook', 'twitter', 'youtube', 'linkedin', 'instagram', 'google']
-# unwanted formats (this words will not be part of the URL)
+# unwanted formats (will not be part of the URL)
 EXCLUDE_FORMATS = ['#', '@', 'jpeg', 'pdf', 'txt', 'jpg', 'download', 'node']
 # unwanted tags
 EXCLUDE_TAGS = re.compile(
