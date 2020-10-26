@@ -25,7 +25,7 @@ The output file will be generated/saved in the same directory the app runing in.
 
 ## Remarks ##
 
-* This script was created by me in Summer 2018.
+* This script was created by me in Summer 2019.
 * It was created as part of summer internship at EVERTHERE and I was guided by the CTO & Co-Founder Gabriel Amram and Lead Architect Sofi Vasserman.
 * Thank you EVERTHER for letting me this Oputionity of learning and develop.
 * It was absolutly great to learn from those Guys!
