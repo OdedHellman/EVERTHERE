@@ -20,7 +20,7 @@ The output file contains two columns: 'Organization Web Page' and 'Partners Web 
 * Organization Web Page - The URLs of the website that been crawled.
 * Partners Web Page - URLs of the partner’s companies that been collected from 'Organization Web Page'.
 
-The output file will be generated/saved in the same directory the app running in. 
+The output file will be generated/saved in the same directory the app running at. 
 
 ## Remarks ##
 
