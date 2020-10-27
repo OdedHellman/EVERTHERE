@@ -8,8 +8,8 @@ The purpose of this crawler is to take a CSV file contains domains of organizati
 The web crawler gets from the user one arguments:
 The full path of the input CSV file that contains Two columns: 'Organization Name' and 'Website' (There is an example of an input file called 'Input.csv' at this repo).
 
-* Organization Name - The name of the Company that the crawler will crawl.
-* Website - The URL of the home page of 'Organization Name'
+* Organization Name - The name of the organization that the crawler will crawl.
+* Website - The domain of 'Organization Name'
 
 
 ## Output ##
