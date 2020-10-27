@@ -1,6 +1,6 @@
 # Web Crawler #
 ## Overview  ##
-The purpose of this crawler is to take a CSV file contains URLs of organizations and create a new CSV file that contains for each organization a list of partners domain URLs.
+The purpose of this crawler is to take a CSV file contains domains of organizations and create a new CSV file that contains for each organization a list of partners domain.
 
 
 ## Running the Crawler ##
@@ -17,8 +17,8 @@ The full path of the input CSV file that contains Two columns: 'Organization Nam
 The crawler outputs a CSV file.
 The output file contains two columns: 'Organization Web Page' and 'Partners Web Page'.
 
-* Organization Web Page - The URLs of the website that been crawled.
-* Partners Web Page - URLs of the partner’s companies that been collected from 'Organization Web Page'.
+* Organization Web Page - The domain of the website that has been crawled.
+* Partners Web Page - domains of the partner’s companies of the appropriate organization.
 
 The output file will be generated/saved in the same directory the app running at. 
 
@@ -26,7 +26,4 @@ The output file will be generated/saved in the same directory the app running at
 
 * This script was created by me in Summer 2019.
 * It was created as part of a summer internship at EVERTHERE and I was guided by the CTO & Co-Founder Gabriel Amram and Lead Architect Sofi Vasserman.
-* Thank you EVERTHER for letting me this opportunity. It was absolutely great experience to learn from you guys!
-
-
-
+* Thank you EVERTHER for letting me this opportunity. It was a great experience to learn from you guys!
