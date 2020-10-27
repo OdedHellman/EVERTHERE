@@ -1,8 +1,8 @@
 # Web Crawler #
 ## Overview  ##
-The purpose of this crawler is to generate a CSV file that contains partners domain URLs from an input CSV file contains a list of organizations domain URLs.
+The purpose of this crawler is to take a CSV file contains URLs of organizations and create a new CSV file that contains for each organization a list of domain URLs of their partners.
 
- 
+
 ## Running the Crawler ##
 
 The web crawler gets from the user one arguments:
