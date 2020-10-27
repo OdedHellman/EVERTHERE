@@ -1,6 +1,6 @@
 # Web Crawler #
 ## Overview  ##
-The purpose of this crawler is to take a CSV file contains URLs of organizations and create a new CSV file that contains for each organization a list of domain URLs of their partners.
+The purpose of this crawler is to take a CSV file contains URLs of organizations and create a new CSV file that contains for each organization a list of partners domain URLs.
 
 
 ## Running the Crawler ##
