@@ -1,6 +1,7 @@
 # Web Crawler #
 ## Overview  ##
-This crawler aims to take a CSV file containing organizations' domains and create a new CSV file that includes a list of partners domain for each organization.
+This crawler tasked with the partnership classification process for thousands of companies.
+It takes a CSV file containing organizations' domains and create a new CSV file that includes a list of partners domain for each organization.
  
 ## Running the Crawler ##
  
